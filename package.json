@@ -1,0 +1,27 @@
+{
+  "name": "parse",
+  "version": "1.0.0",
+  "description": "parse server",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "parse",
+    "server"
+  ],
+  "author": "juorder gonzalez",
+  "license": "ISC",
+  "dependencies": {
+    "currency-formatter": "^1.0.2",
+    "express": "^4.14.0",
+    "moment": "^2.14.1",
+    "nodemailer": "^2.4.2",
+    "parse-dashboard": "^1.0.14",
+    "parse-server": "^2.2.13",
+    "zimbra-admin-api-js": "^0.2.7"
+  },
+  "devDependencies": {
+    "dotenv": "^2.0.0"
+  }
+}
