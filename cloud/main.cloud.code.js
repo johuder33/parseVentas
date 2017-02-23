@@ -212,7 +212,7 @@ function sendEmail(template, vars, attrs) {
 /* CLOUD FUNCTIONS PARSE */
 
 Parse.Cloud.define('getPrices', function(req, res){
-	console.log("Pass by getPrices");
+	console.log("someone requested by getPrices");
 	return res.error({ok: true});
 	var now = new Date();
 	var domainId = req.params.domainId;
