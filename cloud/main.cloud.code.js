@@ -213,6 +213,7 @@ function sendEmail(template, vars, attrs) {
 
 Parse.Cloud.define('getPrices', function(req, res){
 	return res.error({ok: true});
+	
 	var now = new Date();
 	var domainId = req.params.domainId;
 	var domainCreateAt = req.params.domainCreatedDate;
