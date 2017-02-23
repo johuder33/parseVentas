@@ -4,7 +4,7 @@ var ParseDashboard = require('parse-dashboard');
 var server = express();
 var fs = require('fs');
 var config = process.env;
-const port = config.PORT || 8083;
+const port = config.PORT || 8080;
 
 if (config.DEV) {
 	try{
