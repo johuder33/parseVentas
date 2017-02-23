@@ -212,8 +212,8 @@ function sendEmail(template, vars, attrs) {
 /* CLOUD FUNCTIONS PARSE */
 
 Parse.Cloud.define('getPrices', function(req, res){
-	console.log("someone requested by getPrices");
-	return res.error({ok: true});
+	console.log("return error when request prices");
+	return res.error({code: 404, message: 'Este servicio no esta habilitado por ahora, en mantención.'});
 	var now = new Date();
 	var domainId = req.params.domainId;
 	var domainCreateAt = req.params.domainCreatedDate;
