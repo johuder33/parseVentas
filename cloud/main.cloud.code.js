@@ -211,6 +211,58 @@ function sendEmail(template, vars, attrs) {
 
 /* CLOUD FUNCTIONS PARSE */
 
+Parse.Cloud.define('setPurchase', function(req, res){
+	var purchase = req.params.purchase;
+	var domain = req.params.domain;
+	var user = req.params.user;
+	var fullname = req.params.fullname;
+
+	if (fullname === '' || domain === '' || user === '') {
+		return res.error({code: 400, messageCode: 401});
+	}
+
+	var errors = [];
+	var purchaseKeys = Object.keys(purchase);
+	var sales = [];
+	var data = {
+		adminEmail: user,
+		fullname: fullname,
+		domain,
+		sales
+	};
+
+	purchaseKeys.reduce(function(last, current){
+		const quantityRequested = purchase[current];
+		const label = quantityRequested > 1 ? 'casillas' : 'casilla';
+		if (quantityRequested <= 0) {
+			last.push({[current]: quantityRequested});
+		}
+		sales.push(`${quantityRequested} ${label} ${current}`);
+		return last;
+	}, errors);
+
+	if (purchaseKeys.length === 0 || errors.length > 0) {
+		return res.error({code: 400, messageCode: 402});
+	}
+
+	sales = sales.join(', ');
+
+	sendEmail('salesRequest.html', data).then(function(sent){
+		sendEmail('customerRequest.html', data,
+		{
+			subject: 'Solicitud de compra de casillas para '+ domain,
+			to: data.adminEmail
+		}
+		).then(function(sentToCustomer){
+			return res.success({code: 200, messageCode: 200});
+		}).catch(function(err){
+			return res.success({code: 200, messageCode: 201});
+		});
+	}).catch(function(err){
+		return res.error({code: 409, messageCode: 409});
+	});
+});
+
 Parse.Cloud.define('getPrices', function(req, res){
 	console.log("return error when request prices");
 	return res.error({code: 404, message: 'Este servicio no esta habilitado por ahora, en mantención.'});
@@ -348,6 +400,8 @@ Parse.Cloud.afterSave('sales', function(req){
 });
 
 Parse.Cloud.define('generateInvoice', function(req, res){
+	console.log("return error when request prices");
+	return res.error({code: 404, message: 'Este servicio no esta habilitado por ahora, en mantención.'});
 	var id = req.params.id;
 	var total = req.params.total;
 	var saleString = req.params.saleString;
@@ -461,6 +515,8 @@ Parse.Cloud.define('generateInvoice', function(req, res){
 });
 
 Parse.Cloud.define('saveSaleFromZboxManager', function(req, res){
+	console.log("return error when request prices");
+	return res.error({code: 404, message: 'Este servicio no esta habilitado por ahora, en mantención.'});
 	var Sales = Parse.Object.extend("sales");
 	var SalesTable = new Sales();
 
@@ -498,6 +554,8 @@ Parse.Cloud.define('saveSaleFromZboxManager', function(req, res){
 });
 
 Parse.Cloud.define('makeSale', function(req, res){
+	console.log("return error when request prices");
+	return res.error({code: 404, message: 'Este servicio no esta habilitado por ahora, en mantención.'});
 	var zimbra = initZimbra();
 	var domainId = req.params.domainId;
 	var companyId = req.params.companyId;
