@@ -221,7 +221,7 @@ Parse.Cloud.define('setPurchase', function(req, res){
 		return res.error({code: 400, messageCode: 401});
 	}
 
-	var errors = [];
+	var goods = [];
 	var purchaseKeys = Object.keys(purchase);
 	var sales = [];
 	var data = {
@@ -234,14 +234,14 @@ Parse.Cloud.define('setPurchase', function(req, res){
 	purchaseKeys.reduce(function(last, current){
 		const quantityRequested = purchase[current];
 		const label = quantityRequested > 1 ? 'casillas' : 'casilla';
-		if (quantityRequested <= 0) {
+		if (quantityRequested > 0) {
 			last.push({[current]: quantityRequested});
 		}
 		sales.push(`${quantityRequested} ${label} ${current}`);
 		return last;
-	}, errors);
+	}, goods);
 
-	if (purchaseKeys.length === 0 || errors.length > 0) {
+	if (purchaseKeys.length === 0 || goods.length <= 0) {
 		return res.error({code: 400, messageCode: 402});
 	}
 
